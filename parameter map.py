@@ -1,5 +1,7 @@
-import time
+import time 
 
+
+# create list of dots with positions 
 def create_dot_list(width, height):
     dot = []
     for h in range(height):
@@ -8,9 +10,23 @@ def create_dot_list(width, height):
             dot_line.append('   .   ')
         dot.append(dot_line)
 
+    print("the list is successfully created!")
     return dot
+'''
+>>> input : 3
+>>> input : 3
+dot = [ ['x1', 'x2', 'x3'], ['x1', 'x2', 'x3'], ['x1', 'x2', 'x3'] ]
+                             ---
+>>> dot[1][0]
+>>> output : x2
+x2 in list 2
+'''
 
-def print_field(dot):
+
+
+
+# print map in the terminal
+def print_map(dot):
     
     for h in range(len(dot)):
         for w in dot[h]:
@@ -18,17 +34,16 @@ def print_field(dot):
         print('\n')
 
 
-
 height = int(input("height : "))
 width = int(input("width : "))
 
 dot = create_dot_list(width, height)
 
+# counts days and provides map
 num_of_days = 0 
-while num_of_days < 10:
+while True:
     num_of_days += 1
-
     print(f"index = {num_of_days}")
-    #2:
-    print_field(dot)
+
+    print_map(dot)
     time.sleep(1)
