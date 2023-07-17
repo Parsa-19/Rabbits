@@ -8,7 +8,7 @@ class Rabbits:
         pass
 
     def generate_rab(self, dot, cloned_dot):
-        
+
         lines = len(cloned_dot)
         select_line = random.randint(0, lines -1)
 
@@ -24,6 +24,7 @@ class Rabbits:
         # print(f"selected line is : {select_line}")
         # print(f"selected index is : {select_item}")
         # print(cloned_dot)
+        
         return dot
 
 
