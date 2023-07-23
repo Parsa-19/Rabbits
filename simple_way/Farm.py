@@ -1,5 +1,6 @@
 import time
 import random
+from replit import clear
 
 class Rabbit:
     rab_tobe_count = 0
@@ -21,11 +22,7 @@ class Rabbit:
 
 
 
-def print_map(dot): 
-    for h in range(len(dot)):
-        for w in dot[h]:
-            print(w, end='')
-        print('\n')
+
 
 
 
@@ -40,6 +37,17 @@ def create_dot_list(width, height):
     print("the list is successfully created!")
     return dot
 
+def print_map(dot): 
+    for h in range(len(dot)):
+        for w in dot[h]:
+            print(w, end='')
+        print('\n' ,)
+
+# def delete_map(dot):
+#     for h in range(len(dot)):
+#         for w in dot[h]:
+#             print('\r')
+#         print('\n')
     
 
 
@@ -63,12 +71,18 @@ rab = Rabbit()
 total_rab_objs = []
 i = 0
 while i < 10:
+    clear()
+
     i += 1
     print(f"day : {i}")
 
     total_rab_objs.append(Rabbit()) #rabbit is created in here
     for rab in total_rab_objs:
-        rab.display() # rabbit will shown in here
-        rab.move() 
+        # rab.display() # rabbit is shown in here
+        # rab.move() 
+        pass
+    
+    print_map(dot)
+    time.sleep(1)
 
         
