@@ -2,8 +2,8 @@ import time
 import random 
 
 
-class Rabbits:
-
+class Farm:
+    
     def init(self):
         pass
 
@@ -12,20 +12,43 @@ class Rabbits:
         lines = len(cloned_dot)
         select_line = random.randint(0, lines -1)
 
-        if len(cloned_dot[select_line]) == 0:
-            cloned_dot.pop(select_line)
+        # if len(cloned_dot[select_line]) == 0:
+        #     cloned_dot.pop(select_line)
 
-        select_item = int(random.choice(cloned_dot[select_line]))      
+        if cloned_dot[select_line] == []:
+            i = 0
+            while len(cloned_dot[i]) == 0:
+                select_line = random.randint(0, lines -1)
+                select_item = int(random.choice(cloned_dot[i]))
+                i += 1
+        else : 
+            select_item = int(random.choice(cloned_dot[select_line]))     
 
 
-        dot[select_line][select_item] = '   R   '
+        if dot[select_line][select_item] != '   C   ':
+            dot[select_line][select_item] = '   R   '
         cloned_dot[select_line].remove(select_item)
 
         # print(f"selected line is : {select_line}")
         # print(f"selected index is : {select_item}")
         # print(cloned_dot)
+
+        return dot
+    
+    def generate_carr(self, dot):
+        
+        lines = len(dot)
+        item = len(dot[0])
+        select_line = random.randint(0, lines -1)
+        select_item = random.randint(0, item -1)
+
+        if dot[select_line][select_item] == '   .   ':
+            dot[select_line][select_item] = '   C   '
         
         return dot
+
+    # def 
+
 
 
 
@@ -64,7 +87,7 @@ def print_map(dot):
 
 
 
-rab = Rabbits()
+rab = Farm()
 
 height = int(input("height : "))
 width = int(input("width : "))
@@ -84,5 +107,7 @@ while True:
     print(f"day{num_of_days}")
 
     rab.generate_rab(dot, cloned_dot)
+    rab.generate_carr(dot)
+
     print_map(dot)
     time.sleep(1)
