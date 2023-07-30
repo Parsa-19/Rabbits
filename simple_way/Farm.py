@@ -1,6 +1,7 @@
 import time
 import random
 from replit import clear
+import sys, getopt
 
 class Rabbit:
 
@@ -8,11 +9,14 @@ class Rabbit:
     cloned_dot = {}
     rab_tobe_count = 0
 
+    width = 0
+    height = 0
+
     def __init__(self):
         self.identity = Rabbit.rab_tobe_count    # .identity attribute tells you the index of specific rabbit you choosed4  # the first time its not actually a rabbit (out_of_range_rab = Rabbit)                                      
         self.character = '   R   '
 
-        self.put() # put every rabbit one time when it's created 
+        self.put() # put every rabbit just one time when it's created 
 
         Rabbit.rab_tobe_count += 1
         
@@ -33,9 +37,9 @@ class Rabbit:
             for key in Rabbit.cloned_dot:
                 cloned_keys.append(key)
 
-    
             line = random.choice(cloned_keys)
             item = random.choice(Rabbit.cloned_dot[line]) 
+
 
             Rabbit.dot[line][item] = self.character
             Rabbit.cloned_dot[line].remove(item)
@@ -66,7 +70,6 @@ class Rabbit:
             for w in range(6): # 6 should be command (parameter)
                 dot_line.append('   .   ')
             Rabbit.dot.append(dot_line)
-        print("the list is successfully created!")
 
 
     @staticmethod
@@ -78,10 +81,36 @@ class Rabbit:
             Rabbit.cloned_dot[key] = value_lst
 
 
+    @staticmethod
+    def get_dimentions(argv):
+        # you can enter the dimention through option not argument:
+        opts, args = getopt.getopt(argv, "w:h:i") # w=int(width), h=int(height), i:informations 
+    
+        for op, ar in opts:
+            if op == '-i':
+                print('''**********
+usage:
+    type -w following the desired width to apply the width
+    and type -h following the desired height to apply the height
+                      
+syntax :
+    -w <width> -h <height>
 
+other options:
+    -i : get help
+**********''')
+                print("press ctrl+C if you want yo keep this if not the game will start in :")
+                i = 9
+                while i != 0:
+                    i -= 1
+                    print(i, end='\r')
+                    time.sleep(1)
 
-
-
+            elif op in ('-w', '--width'):
+                Rabbit.width = int(ar)
+            elif op in ('-h', '--height'):
+                Rabbit.height = int(ar)
+        
 
 
 
@@ -97,38 +126,49 @@ def print_map(dot):
     
 
 
-# create a list of dots and cloned_dot(with indexes)
-out_of_range_rab = Rabbit()
-out_of_range_rab.create_map() # I put the creation of dot list in Rabbit class because i needed the access of list inside class to replace, remove, move and.. the rabbits
-out_of_range_rab.create_cloned_dot()
-
-rab1 = Rabbit()
 
 
 
-try :
-    total_rab_objs = []
-    i = 0
-    while True:
-        # clear()
-        total_rab_objs.append(Rabbit()) # create rabbit and save it in total_rab_objs
 
-        i += 1
-        print(f"day : {i}")
 
-        for rab in total_rab_objs:
-            # rab.move()
-            pass 
+
+
+
+
+
+if __name__ == '__main__':
+
+    # create a list of dots and cloned_dot(with indexes)
+    out_of_range_rab = Rabbit()
+    out_of_range_rab.get_dimentions(sys.argv[1:])
+    out_of_range_rab.create_map() # I put the creation of dot list in Rabbit class because i needed the access of list inside class to replace, remove, move and.. rabbits
+    out_of_range_rab.create_cloned_dot()
+
+
+    try :
+        total_rab_objs = []
+        i = 0
+        while True:
+            clear()
+            total_rab_objs.append(Rabbit()) # create rabbit and save it in total_rab_objs
+
+            i += 1
+            print(f"day : {i}")
+
+            for rab in total_rab_objs:
+                # rab.move()
+                pass 
+                
             
-        
-        print_map(Rabbit.dot)
-        time.sleep(0.5)
+            print_map(Rabbit.dot)
+            time.sleep(1)
 
-except :
-    def print_dict(dic):
-        for i in dic:
-            for j in dic[i]:
-                print(j, end='      ')
-            print('\n')
-        
-    print_dict(Rabbit.cloned_dot)
+    except :
+        print("\nempty dots indexes:")
+        def print_dict(dic):
+            for i in dic:
+                for j in dic[i]:
+                    print(j, end='      ')
+                print('\n')
+            
+        print_dict(Rabbit.cloned_dot)
