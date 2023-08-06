@@ -2,6 +2,7 @@ import os
 import numpy as np
 import random
 import time
+import getopt, sys
 
 class Rabbit:
     
@@ -19,7 +20,7 @@ class GamePlay:
     map = []
     temp_map = []
 
-    def __init__(self, width = 8, height = 8):
+    def __init__(self, width = 6, height = 6):
         self.width = width
         self.height = height
         
@@ -74,13 +75,28 @@ class GamePlay:
             for j in range(len(GamePlay.map[i])):
                 print(GamePlay.map[i][j], end = '')
             print('\n')
-            
+
     
 
+    
 
-game = GamePlay()
+day_late = 1 # one second
+argv = sys.argv[1:]
+opts, args = getopt.getopt(argv, 'w:h:t:')
+for op, ar in opts:
+    if op == '-w':
+        W = int(ar)
+    elif op == '-h':
+        H = int(ar)
+    elif op == '-t':
+        day_late = float(ar)
+
+
+game = GamePlay(W, H) # width, height
+
+
 total_rab = []
-# print(GamePlay.temp_map)
+print(GamePlay.temp_map)
 while True:
     
     os.system('clear')
@@ -95,7 +111,7 @@ while True:
         game.move(obj)
     
 
-    time.sleep(0.1)
+    time.sleep(day_late)
 print("Done!")
 
 
