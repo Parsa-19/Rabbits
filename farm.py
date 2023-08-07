@@ -11,7 +11,28 @@ class Rabbit:
         self.char = '  R  '
         self.coor = ()
         self.gender = random.choice(gender_types)
+        self.strength = 3
+        self.health = 100 # 100 by default
 
+    
+    def eat_carrot(self, carrot):
+        if carrot.state == True:
+            print("carrot eated! wowowowo")
+            self.health += 100
+        else : 
+            self.health -= 50
+        
+
+    def check_strength():
+        pass
+
+
+
+class Carrot:
+    def __init__(self):
+        self.char = '  C  '
+        self.coor = ()
+        self.state = random.choice([True, True, True, True, False])
     
 
 
@@ -40,7 +61,11 @@ class GamePlay:
         GamePlay.map[x][y] = type.char
         type.coor = rand_coor
         
-        GamePlay.temp_map.remove(rand_coor)
+
+        if type.char == '  C  ':  # wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwaring : this may happen in same block again for carrots
+            pass
+        else:
+            GamePlay.temp_map.remove(rand_coor)
     
 
     @staticmethod
@@ -54,7 +79,9 @@ class GamePlay:
                 choosen_block = random.choice(possible_moves)
                 new_x, new_y = choosen_block
                 if (new_x, new_y) in GamePlay.temp_map:
-                    GamePlay.map[curr_x][curr_y] = '  .  '
+                    # if GamePlay.map[new_x][new_y] == '  C  ':
+                    #     type.eat_carrot(Carrot()) # wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwaring : there is no cordinate for the carrot that rabbit eats
+                    GamePlay.map[curr_x][curr_y] = '  .  ' # remove the rab from current possition
                     GamePlay.temp_map.append(type.coor) #take back the current location that rabbit was taken
                     type.coor = (new_x, new_y) # set the new location 
                     GamePlay.temp_map.remove(choosen_block) # remove the new location from temprory
@@ -64,7 +91,6 @@ class GamePlay:
                     possible_moves.remove(choosen_block)
             else:
                 break
-
         
 
 
@@ -80,9 +106,10 @@ class GamePlay:
 
     
 
-day_late = 1 # one second
+day_late = 1 # second
 argv = sys.argv[1:]
 opts, args = getopt.getopt(argv, 'w:h:t:')
+W, H = 6, 6
 for op, ar in opts:
     if op == '-w':
         W = int(ar)
@@ -93,26 +120,37 @@ for op, ar in opts:
 
 
 game = GamePlay(W, H) # width, height
-
-
-total_rab = []
-print(GamePlay.temp_map)
-while True:
-    
-    os.system('clear')
-    game.print_map()
-    
-    rab = Rabbit()
-    if len(GamePlay.temp_map) == 0:
-        break
-    game.spawn(rab)
-    total_rab.append(rab)
-    for obj in total_rab:
-        game.move(obj)
-    
-
-    time.sleep(day_late)
-print("Done!")
+try:
+    total_rab = []
+    day = 0
+    while True:
+        
+        os.system('clear')
+        game.print_map()
+        print(f"Day {day}:")
+        day += 1
+        
+        
+        rab = Rabbit()
+        car = Carrot()
+        if len(GamePlay.temp_map) == 0: # check if the game is over or not
+            print("len is out of range")
+            break
+        game.spawn(rab)
+        game.spawn(car)
+        total_rab.append(rab)
+        for obj in total_rab:
+            game.move(obj)
+        
+        print(len(GamePlay.temp_map))
+        time.sleep(day_late)
+        
+        
+    print("Done!")
+except:
+    print(f"this is the exception: \nlen(temp)is:{len(GamePlay.temp_map)}")
+    for i in range(len(GamePlay.temp_map)):
+            print(GamePlay.temp_map[i])
 
 
 
