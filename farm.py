@@ -100,7 +100,6 @@ class GamePlay:
             x, y = type.coor
             GamePlay.map[x][y] = '  .  ' 
             GamePlay.temp_map.append(type.coor)
-            print("rab is removed from the interface!")
             return False
         else:
             # you'll be still alive
@@ -146,7 +145,7 @@ if __name__ == '__main__':
     total_rabs = []
     day = 0
 
-    asd = 0
+    died_rabs = 0
     try :
         while True:
             
@@ -171,17 +170,16 @@ if __name__ == '__main__':
                 rab_stat = game.check_rab_strength(obj)
                 if rab_stat == False:
                     total_rabs.remove(obj)
-                    print('rab is removed from total rabs !')
-                    asd += 1 
+                    died_rabs += 1 
 
             
             game.print_map()
             time.sleep(day_late)
-        
+
+        print("Done!")
         
     except :
-        print("Done!")
-        print(asd, "nafar fot shodan motasefane")
+        print(died_rabs, "nafar fot shodan")
         
         
 ###################### main ######################
