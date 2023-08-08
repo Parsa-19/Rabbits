@@ -12,8 +12,10 @@ class Rabbit:
         self.gender = random.choice(gender_types)
         self.strength = 4 # first time it spawns and moves at same time (when it moves, it decrease) so I put 4
         self.health = 100 # 100 by default
+        self.stomach = 0
 
     def eat_carrot(self, carrot_x, carrot_y): 
+        self.stomach += 1
         # search between all carrot instances to see wich carrot is found by rabbit and then feed it
         for carrot in gc.get_objects():
             if isinstance(carrot, Carrot):
@@ -45,9 +47,9 @@ class GamePlay:
         self.width = width
         self.height = height
         
-        for x in range(self.width):
+        for x in range(self.height):
             line_append = []
-            for y in range(self.height):
+            for y in range(self.width):
                 line_append.append('  .  ')
                 GamePlay.temp_map.append((x, y))
             GamePlay.map.append(line_append)
@@ -79,9 +81,13 @@ class GamePlay:
                 choosen_block = random.choice(possible_moves)
                 new_x, new_y = choosen_block
                 if (new_x, new_y) in GamePlay.temp_map:
+
                     if GamePlay.map[new_x][new_y] == '  C  ':
                         type.eat_carrot(new_x, new_y)
                         type.strength = 3
+                    elif GamePlay.map[new_x][new_y] == '  .  ':
+                        type.strength -= 1
+
                     GamePlay.map[curr_x][curr_y] = '  .  ' # remove the rab from current possition
                     GamePlay.temp_map.append(type.coor) #take back the current location that rabbit was taken
                     type.coor = (new_x, new_y) # set the new location 
@@ -106,8 +112,6 @@ class GamePlay:
             return True
         
 
-
-
     def print_map(self): 
         for i in range(len(GamePlay.map)):
             for j in range(len(GamePlay.map[i])):
@@ -116,10 +120,10 @@ class GamePlay:
 
 
     @staticmethod
-    def get_health():
+    def get_rabbit_info():
         for rab_ins in gc.get_objects():
             if isinstance(rab_ins, Rabbit):
-                print(rab_ins.char, '-->', rab_ins.health)
+                print(rab_ins.char, '-->', rab_ins.health, ' | carrots eaten: ', rab_ins.stomach)
 
     
 
@@ -165,12 +169,11 @@ if __name__ == '__main__':
 
             total_rabs.append(rab)
             for obj in total_rabs:
-                obj.strength -= 1
                 game.move(obj)
                 rab_stat = game.check_rab_strength(obj)
                 if rab_stat == False:
                     total_rabs.remove(obj)
-                    died_rabs += 1 
+                    died_rabs += 1
 
             
             game.print_map()
@@ -179,7 +182,8 @@ if __name__ == '__main__':
         print("Done!")
         
     except :
-        print(died_rabs, "nafar fot shodan")
+        print('\n', died_rabs, "nafar fot shodan")
+        game.get_rabbit_info()
         
         
 ###################### main ######################
