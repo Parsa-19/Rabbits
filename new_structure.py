@@ -35,7 +35,8 @@ class Creature:
         self.stomach = []
         self.age = age
         self.sick = sick
-    
+
+
 
 
 class Wolf(Creature):
@@ -228,13 +229,13 @@ class Gameplay:
 
 
     
-    def check_partner(self, type):
+    def check_partner(self, type, total_obj):
         around_cells = self.get_around(type)
 
         for x, y in around_cells:
-            for rab_ins in Gameplay.total_rab:
-                if rab_ins.coor == (x, y) and rab_ins.gender == "Female" and rab_ins.age == 'adult':
-                        return True  
+            for ins in total_obj:
+                if ins.coor == (x, y) and ins.gender == "Female" and ins.age == 'adult':
+                    return True  
         return False
     
 
@@ -251,7 +252,6 @@ class Gameplay:
             else:
                 around_cells.remove((x, y))
 
-            
         return None # return none when there is no place to generate new rab
 
 
@@ -273,8 +273,8 @@ class Gameplay:
 
 
 ############ desierd arguments ############
-width, height = 4, 4
-day_distance = 1 # sec
+width, height = 6, 6
+day_distance = 0.6 # sec
 args = sys.argv[1:]
 if len(args) >= 2:
     if len(args) == 3 :
@@ -298,9 +298,6 @@ try:
     if __name__ == '__main__':
 
 
-
-
-        
         day_count = 1
         break_out = True
         while True:
@@ -317,7 +314,7 @@ try:
             for rab in Gameplay.total_rab:
                 game.move(rab)  
                 if rab.age == 'adult' and rab.gender == 'Male':
-                    in_love = game.check_partner(rab)
+                    in_love = game.check_partner(rab, Gameplay.total_rab)
                     if in_love == True:
                         Rabbit.cuple_found += 1
                         baby_rab = game.generate_item(rab, Rabbit, '  r  ') # need the father's rab obj, class and the character
@@ -332,7 +329,7 @@ try:
             for wol in Gameplay.total_wol:
                 game.move(wol)
                 if wol.age == 'adult' and wol.gender == 'Male':
-                    in_love = game.check_partner(wol)
+                    in_love = game.check_partner(wol, Gameplay.total_wol)
                     if in_love == True:
                         Wolf.cuple_found += 1
                         baby_wol = game.generate_item(wol, Wolf, '  w  ') # need the father's rab obj, class and the character
@@ -358,7 +355,7 @@ try:
             day_count += 1
 
     print("Done!")
-except KeyboardInterrupt:
+except :
     print('\nthis is the exception:::: \n')
     print('Wolf temp map:\n')
     game.print_temp_map(Wolf)
@@ -369,12 +366,12 @@ except KeyboardInterrupt:
 
 
 
-    # print("Rabbits got {} marriage. and {} babies".format(Rabbit.cuple_found, Rabbit.baby_generated))
-    # print("Wolfs got {} marriage. and {} babies".format(Wolf.cuple_found, Wolf.baby_generated))
-    # print('\n')
+    print("Rabbits got {} marriage. and {} babies".format(Rabbit.cuple_found, Rabbit.baby_generated))
+    print("Wolfs got {} marriage. and {} babies".format(Wolf.cuple_found, Wolf.baby_generated))
+    print('\n')
     
-    # game.show_item_info(Rabbit, Gameplay.total_rab)
-    # game.show_item_info(Wolf, Gameplay.total_wol)
+    game.show_item_info(Rabbit, Gameplay.total_rab)
+    game.show_item_info(Wolf, Gameplay.total_wol)
 
 
 
