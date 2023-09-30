@@ -5,6 +5,7 @@ second option (7) : map_height
 third option (0.8) : how long the day would take in second
 
 
+in map :
 W = adult Wolf
 w = child wolf
 R = adult Rabbit
@@ -13,6 +14,7 @@ C = healthy Carrot
 c = rotten carrot
 
 
+program explained:
 W > R    +100  | feed wolf 
 R > C    +100  | feed rabbit
 R > c    -75   | reduce_rabbit_health
@@ -30,6 +32,7 @@ class Creature:
     def __init__(self, char, age='adult', sick=False):
         self.char = char
         self.coor = ()
+        
         self.health = 100
         self.gender = random.choice(['Male', 'Female'])
         self.stomach = []
