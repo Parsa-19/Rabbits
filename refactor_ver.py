@@ -34,7 +34,7 @@ class GamePlay:
         self.food_for = {
             '  C  ':'',
             '  R  ':'  C  ',
-            '  W  ':'  W  '
+            '  W  ':'  R  '
         }       
 
     def print_day(self):
@@ -53,8 +53,11 @@ class GamePlay:
          for food_obj in obj_lst_handler[self.food_for[type.char]]:
             if food_obj.coor == (spawn_x, spawn_y):
                 obj_lst_handler[self.food_for[type.char]].remove(food_obj)
-                del food_obj
-         
+                try : 
+                    del food_obj
+                    
+                except :
+                    print('couldnt deleted the food !')
 
 
 
@@ -127,15 +130,18 @@ class GamePlay:
         empty_cells = self.get_empty_cells(type) # give object as input to empty cell to determine that which are empty cells and then return them.
         spawn_x, spawn_y = random.choice(empty_cells)
         
+        if self.map[spawn_x][spawn_y] == self.food_for[type.char]:
+            self.feed(type, spawn_x, spawn_y)
+
         self.map[spawn_x][spawn_y] = type.char
         type.coor = (spawn_x, spawn_y)
 
 
     def play(self, type, types_lst):
         self.spawn(type)
-        # for item in types_lst:
-        #     self.move(item)
-        # pass
+        for item in types_lst:
+            self.move(item)
+        pass
 
     
                 
@@ -160,30 +166,38 @@ wolf_objs = []
 # w = wolf('  W  ')
 # wolf_objs.append(w)
 # game1.spawn(w)
+try:
+    while True:
 
-while True:
-    
-    c = carrot('  C  ')
-    carrot_objs.append(c)
-    game1.spawn(c)
-    # game1.play(c, carrot_objs)
+        c = carrot('  C  ')
+        carrot_objs.append(c)
+        game1.spawn(c)
+        # game1.play(c, carrot_objs)
 
-    r = rabbit('  R  ')
-    rabbit_objs.append(r)
-    game1.play(r, rabbit_objs)
-    # game1.spawn(r)
-    # for rab in rabbit_objs:
-    #     game1.move(rab)
+        r = rabbit('  R  ')
+        rabbit_objs.append(r)
+        game1.play(r, rabbit_objs)
 
-    w = wolf('  W  ')
-    wolf_objs.append(w)
-    # game1.play(w, wolf_objs)
-    game1.spawn(w)
+        w = wolf('  W  ')
+        wolf_objs.append(w)
+        game1.play(w, wolf_objs)
+
+        day+=1
+        print('day ', day)
+        game1.print_day()
+        time.sleep(0.1)
+        # os.system('clear')
+
+except :
+    print('items survived : ')
+    i = 0
+    for car in carrot_objs:
+        print(car.char)
+        i += 1
+    for rab in rabbit_objs:
+        print(rab.char)
+        i += 1
     for wol in wolf_objs:
-        game1.move(wol)
-
-    day+=1
-    print('day ', day)
-    game1.print_day()
-    time.sleep(0.5)
-    # os.system('clear')
+        print(wol.char)
+        i += 1 
+    print("=================\n ", i-1, 'items')
