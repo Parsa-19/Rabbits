@@ -159,13 +159,6 @@ carrot_objs = []
 rabbit_objs = []
 wolf_objs = []
 
-# r = rabbit('  R  ')
-# rabbit_objs.append(r)
-# game1.spawn(r)
-
-# w = wolf('  W  ')
-# wolf_objs.append(w)
-# game1.spawn(w)
 try:
     while True:
 
@@ -186,18 +179,18 @@ try:
         print('day ', day)
         game1.print_day()
         time.sleep(0.1)
-        # os.system('clear')
+        os.system('clear')
 
 except :
     print('items survived : ')
     i = 0
     for car in carrot_objs:
-        print(car.char)
+        print(car.char, end=' - ')
         i += 1
     for rab in rabbit_objs:
-        print(rab.char)
+        print(rab.char, end=' - ')
         i += 1
     for wol in wolf_objs:
-        print(wol.char)
+        print(wol.char, end=' - ')
         i += 1 
-    print("=================\n ", i-1, 'items')
+    print("\n*****************************\n" + 'there is', i-1, 'items exist now!')
